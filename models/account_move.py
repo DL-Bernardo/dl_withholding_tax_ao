@@ -96,14 +96,11 @@ class AccountMove(models.Model):
         if not arp_line:
             return
 
-        # O lançamento da retenção deve ser criado num diário de "Operações Diversas"
-        # para não ser confundido com uma fatura por outros módulos (ex: certificação).
-        misc_journal = self.env['account.journal'].search([
-            ('type', '=', 'general'),
-            ('company_id', '=', invoice.company_id.id)
-        ], limit=1)
+        # Obter o diário de retenção a partir da configuração da empresa.
+        # Este diário é usado para criar o lançamento de contrapartida da retenção.
+        misc_journal = invoice.company_id.withholding_journal_id
         if not misc_journal:
-            raise UserError(_("Não foi encontrado um diário do tipo 'Operações Diversas'. Por favor, crie um para continuar."))
+            raise UserError(_("O diário para lançamentos de retenção não está configurado. Por favor, defina-o nas configurações da empresa."))
 
         for tax, amount in withholding_map.items():
             withholding_account = tax.account_id
@@ -141,22 +138,28 @@ class AccountMove(models.Model):
     @api.model
     def create(self, vals):
         """
-        Sobrescreve o método create para garantir que o campo `withholding_tax_id` não é perdido.
+        Sobrescreve o método `create` para contornar um problema específico do Odoo
+        em que o valor do campo `withholding_tax_id` pode ser perdido durante a
+        criação da fatura, especialmente quando há interações com o cálculo de
+        impostos (que pode recriar ou limpar as linhas).
+
+        WORKAROUND:
+        1. Antes de chamar o `super().create()`, os valores de `withholding_tax_id`
+           de cada linha são extraídos e guardados numa lista temporária.
+        2. O método `super().create()` é chamado, o que pode resultar na perda
+           dos valores de retenção.
+        3. Após a criação, os valores guardados são restaurados nas linhas da fatura
+           recém-criada, fazendo a correspondência pela ordem das linhas.
         """
-        # Extrair os valores de retenção das linhas de produto nos `vals` de entrada.
         withholding_values = []
         if 'invoice_line_ids' in vals:
             for line_command in vals.get('invoice_line_ids', []):
-                if line_command and line_command[0] == 0:
+                if line_command and line_command[0] == 0:  # (0, 0, {values})
                     line_vals = line_command[2]
                     withholding_values.append(line_vals.get('withholding_tax_id'))
 
-        # Chamar o `create` original. O Odoo pode limpar o campo `withholding_tax_id` aqui.
         move = super(AccountMove, self).create(vals)
 
-        # Restaurar os valores de retenção, fazendo a correspondência de forma robusta.
-        # Filtramos as linhas para ignorar as que são de impostos, pois estas não
-        # correspondem diretamente às linhas de entrada.
         product_lines = move.invoice_line_ids.filtered(lambda line: not line.tax_line_id)
 
         if withholding_values and len(product_lines) == len(withholding_values):
@@ -169,31 +172,36 @@ class AccountMove(models.Model):
 
     def write(self, vals):
         """
-        Sobrescreve o método write para garantir que o campo `withholding_tax_id` não é perdido.
+        Sobrescreve o método `write` para garantir que o campo `withholding_tax_id`
+        não é perdido durante a atualização de uma fatura. A lógica é semelhante
+        à do método `create`.
+
+        WORKAROUND:
+        1. Antes de chamar `super().write()`, os valores de `withholding_tax_id`
+           são extraídos dos comandos de atualização (1) e criação (0) de linhas.
+        2. O `super().write()` é chamado.
+        3. Os valores são restaurados nas linhas correspondentes.
         """
         if 'invoice_line_ids' in vals:
-            # Guardar os IDs das linhas existentes para identificar as novas mais tarde.
             existing_line_ids = self.invoice_line_ids.ids
 
-            # Extrair valores de retenção antes que se percam.
             line_updates = {}
             new_line_withholding = []
             for command in vals['invoice_line_ids']:
-                if command[0] == 1:  # Update
+                if command[0] == 1:  # (1, id, {values}) - Update
                     if 'withholding_tax_id' in command[2]:
                         line_updates[command[1]] = command[2]['withholding_tax_id']
-                elif command[0] == 0:  # Create
+                elif command[0] == 0:  # (0, 0, {values}) - Create
                     new_line_withholding.append(command[2].get('withholding_tax_id'))
 
             res = super(AccountMove, self).write(vals)
 
-            # Restaurar valores.
             if line_updates:
                 for line_id, wht_id in line_updates.items():
                     self.env['account.move.line'].browse(line_id).write({'withholding_tax_id': wht_id})
             
             if new_line_withholding:
-                self.ensure_one() # Assumimos que estamos a editar uma fatura de cada vez.
+                self.ensure_one()
                 new_lines = self.invoice_line_ids.filtered(lambda l: l.id not in existing_line_ids)
                 product_lines = new_lines.filtered(lambda l: not l.tax_line_id and not l.display_type)
 

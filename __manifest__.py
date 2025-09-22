@@ -15,11 +15,12 @@ Features:
     'website': 'https://www.digitalub.ao',
     'license': 'AGPL-3',
     'category': 'Accounting',
-    'depends': ['account'],
+    'depends': ['account', 'opc_certification_ao_v17'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
         'data/withholding_tax_data.xml',
+        'views/res_company_views.xml',
         'views/withholding_tax_views.xml',
         'views/account_move_views.xml',
         'views/res_partner_views.xml',
@@ -30,8 +31,5 @@ Features:
     ],
     'installable': True,
     'application': True,
-    # Odoo Apps Store info
-    'price': 87.0,
-    'currency': 'USD',
     'images': ['static/description/banner.png'],
 }
