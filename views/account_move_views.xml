@@ -5,22 +5,25 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
 
-            <!-- Campo de retenção na linha da fatura (ao lado dos impostos) -->
-            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']" position="after">
+            <!-- Campo de retenção na linha da fatura -->
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="after">
                 <field name="withholding_tax_id"
                        domain="[('company_id', '=', parent.company_id)]"
                        optional="show"
                        force_save="1"/>
             </xpath>
 
-            <!-- Totais de retenção e líquido no rodapé, logo após o tax_totals_json -->
-            <xpath expr="//field[@name='tax_totals_json']" position="after">
-                <field name="withholding_amount"
-                       widget="monetary"
-                       options="{'currency_field': 'currency_id'}"/>
-                <field name="net_amount"
-                       widget="monetary"
-                       options="{'currency_field': 'currency_id'}"/>
+            <!-- Totais de retenção e líquido no rodapé, após a tabela de linhas -->
+            <xpath expr="//field[@name='invoice_line_ids']" position="after">
+                <group class="oe_subtotal_footer oe_right">
+                    <field name="withholding_amount"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                    <field name="net_amount"
+                           class="oe_subtotal_footer_separator"
+                           widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+                </group>
             </xpath>
 
         </field>
