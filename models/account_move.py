@@ -6,13 +6,13 @@ class AccountMove(models.Model):
 
     withholding_amount = fields.Monetary(
         string="Valor da Retenção",
-        compute="_compute_withholding",
+        compute="_compute_withholding_amount",
         store=True,
         readonly=True
     )
     net_amount = fields.Monetary(
         string="Líquido a Pagar",
-        compute="_compute_withholding",
+        compute="_compute_net_amount",
         store=True,
         readonly=True
     )
@@ -44,13 +44,17 @@ class AccountMove(models.Model):
             ]
 
     @api.depends('invoice_line_ids.price_subtotal', 'invoice_line_ids.withholding_tax_id')
-    def _compute_withholding(self):
+    def _compute_withholding_amount(self):
         for move in self:
             withholding_amount = 0.0
             for line in move.invoice_line_ids:
                 if line.withholding_tax_id:
                     withholding_amount += line.price_subtotal * (line.withholding_tax_id.percentage / 100)
             move.withholding_amount = withholding_amount
+
+    @api.depends('amount_total', 'withholding_amount')
+    def _compute_net_amount(self):
+        for move in self:
             move.net_amount = move.amount_total - move.withholding_amount
 
     def action_post(self):
@@ -67,7 +71,8 @@ class AccountMove(models.Model):
         geração do hash para garantir que os dados estão corretos.
         """
         self._compute_amount()
-        self._compute_withholding()
+        self._compute_withholding_amount()
+        self._compute_net_amount()
         return super().certify()
 
     def _create_withholding_entry(self, invoice):
