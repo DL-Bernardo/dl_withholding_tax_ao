@@ -5,6 +5,9 @@ from lxml import etree as et
 from odoo import models, api, _
 from odoo.exceptions import ValidationError
 from decimal import Decimal
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class WizardSaftWithholding(models.Model):
     _inherit = "wizard.l10n_pt.saft"
