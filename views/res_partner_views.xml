@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="view_company_form_withholding" model="ir.ui.view">
-            <field name="name">res.company.form.withholding.inherit.account</field>
-            <field name="model">res.company</field>
-            <field name="inherit_id" ref="account.view_company_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='account_purchase_tax_id']" position="after">
-                    <field name="withholding_journal_id" domain="[('type', '=', 'general')]"/>
-                </xpath>
-            </field>
-        </record>
-    </data>
+    <record id="view_partner_form_inherit_withholding" model="ir.ui.view">
+        <field name="name">res.partner.withholding.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='fiscal_information']" position="after">
+                <group string="Retenção na Fonte" name="withholding_information">
+                    <field name="withholding_tax_id"
+                           domain="[('company_id', '=', company_id)]"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
 </odoo>
