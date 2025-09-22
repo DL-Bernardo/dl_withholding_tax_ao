@@ -6,8 +6,12 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="account.view_company_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='account_purchase_tax_id']" position="after">
-                    <field name="withholding_journal_id" domain="[('type', '=', 'general')]"/>
+                <xpath expr="//page[@name='account_tab']" position="inside">
+                    <group>
+                        <group string="Configuração de Retenção (Angola)">
+                             <field name="withholding_journal_id"/>
+                        </group>
+                    </group>
                 </xpath>
             </field>
         </record>
