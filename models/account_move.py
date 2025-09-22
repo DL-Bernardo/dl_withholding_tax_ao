@@ -1,3 +1,4 @@
+import json
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
@@ -17,10 +18,10 @@ class AccountMove(models.Model):
         readonly=True
     )
 
-    withholding_by_group = fields.Binary(
-        string="Resumo de Retenções",
+    withholding_by_group = fields.Text(
+        string="Resumo de Retenções (JSON)",
         compute='_compute_withholding_by_group',
-        help='Utilizado para mostrar os totais de retenção agrupados no relatório.'
+        help='Utilizado para mostrar os totais de retenção agrupados no relatório e para o SAFT.'
     )
 
     def _compute_withholding_by_group(self):
@@ -34,14 +35,17 @@ class AccountMove(models.Model):
                 withholding_groups[tax]['base'] += line.price_subtotal
                 withholding_groups[tax]['amount'] += line.price_subtotal * (tax.percentage / 100)
 
-            move.withholding_by_group = [
-                (
-                    tax.name,
-                    group['base'],
-                    group['amount']
-                )
+            # Preparar dados para SAFT e relatórios
+            grouped_data = [
+                {
+                    'code': tax.code,
+                    'name': tax.name,
+                    'base': group['base'],
+                    'amount': group['amount']
+                }
                 for tax, group in withholding_groups.items()
             ]
+            move.withholding_by_group = json.dumps(grouped_data)
 
     @api.depends('invoice_line_ids.price_subtotal', 'invoice_line_ids.withholding_tax_id')
     def _compute_withholding_amount(self):
