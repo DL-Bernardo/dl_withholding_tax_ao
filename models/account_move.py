@@ -55,7 +55,7 @@ class AccountMove(models.Model):
     @api.depends('amount_total', 'withholding_amount')
     def _compute_net_amount(self):
         for move in self:
-            move.net_amount = move.amount_total - move.withholding_amount
+            move.net_amount = abs(move.amount_total - move.withholding_amount)
 
     def action_post(self):
         res = super().action_post()

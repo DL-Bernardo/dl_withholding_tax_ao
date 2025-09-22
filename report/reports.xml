@@ -1,11 +1,9 @@
 <odoo>
     <template id="report_invoice_document_inherit_withholding" inherit_id="account.report_invoice_document">
-        <!-- Substitui o bloco de totais inteiro para uma estrutura de 2 colunas com resumos -->
         <xpath expr="//div[@id='total']" position="replace">
             <div id="total" class="row">
                 <!-- Coluna da Esquerda: Resumo de Retenções -->
                 <div class="col-6">
-                    <!-- Quadro de Retenções -->
                     <table class="table table-sm" t-if="o.withholding_by_group">
                         <thead>
                             <tr>
@@ -32,28 +30,49 @@
                     </table>
                 </div>
 
-                <!-- Coluna da Direita: Totais Principais (com estrutura original Odoo) -->
-                <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                <!-- Coluna da Direita: Totais Manuais -->
+                <div class="col-6 ml-auto">
                     <table class="table table-sm">
-                        <!-- Totais de Impostos e Total Geral (standard Odoo) -->
-                        <t t-set="tax_totals" t-value="json.loads(o.tax_totals_json)"/>
-                        <t t-call="account.document_tax_totals"/>
-
-                        <!-- Linhas de Retenção e Líquido a Pagar -->
-                        <t t-if="o.withholding_amount > 0">
-                            <tr class="border-black o_total">
-                                <td><strong>Retenção na Fonte</strong></td>
-                                <td class="text-right">
-                                    <span t-field="o.withholding_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                        <!-- Untaxed Amount -->
+                        <tr class="border-black o_subtotal">
+                            <td><strong>Valor sem Impostos</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_untaxed"/>
+                            </td>
+                        </tr>
+                        <!-- Taxes -->
+                        <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                            <tr t-if="amount_by_group[1]">
+                                <td>
+                                    <span t-esc="amount_by_group[0]"/>
                                 </td>
-                            </tr>
-                            <tr class="border-black o_total">
-                                <td><strong>Líquido a Pagar</strong></td>
-                                <td class="text-right">
-                                    <span t-field="o.net_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                <td class="text-right o_price_total">
+                                    <span t-esc="amount_by_group[1]" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                 </td>
                             </tr>
                         </t>
+                        <!-- Total -->
+                        <tr class="border-black o_total">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_total"/>
+                            </td>
+                        </tr>
+                        <!-- Withholding Amount -->
+                        <tr t-if="o.withholding_amount > 0" style="border-top: 1px solid black;">
+                            <td><strong>Valor da Retenção</strong></td>
+                            <td class="text-right">
+                                <span>- </span>
+                                <span t-field="o.withholding_amount"/>
+                            </td>
+                        </tr>
+                        <!-- Net Amount to Pay -->
+                        <tr class="border-black" t-if="o.withholding_amount > 0">
+                            <td><strong>Líquido a Pagar</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.net_amount"/>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
