@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
 
             <!-- Campo de retenção na linha da fatura -->
-            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="after">
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']" position="after">
                 <field name="withholding_tax_id"
                        domain="[('company_id', '=', parent.company_id)]"
                        optional="show"
