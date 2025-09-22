@@ -96,11 +96,14 @@ class AccountMove(models.Model):
         if not arp_line:
             return
 
-        # Obter o diário de retenção a partir da configuração da empresa.
-        # Este diário é usado para criar o lançamento de contrapartida da retenção.
-        misc_journal = invoice.company_id.withholding_journal_id
+        # O lançamento da retenção deve ser criado num diário de "Operações Diversas"
+        # para não ser confundido com uma fatura por outros módulos (ex: certificação).
+        misc_journal = self.env['account.journal'].search([
+            ('type', '=', 'general'),
+            ('company_id', '=', invoice.company_id.id)
+        ], limit=1)
         if not misc_journal:
-            raise UserError(_("O diário para lançamentos de retenção não está configurado. Por favor, defina-o nas configurações da empresa."))
+            raise UserError(_("Não foi encontrado um diário do tipo 'Operações Diversas'. Por favor, crie um para continuar."))
 
         for tax, amount in withholding_map.items():
             withholding_account = tax.account_id
