@@ -148,11 +148,21 @@ class WizardSaftWithholding(models.Model):
                         if invoice.withholding_amount > 0 and hasattr(invoice, 'withholding_by_group') and invoice.withholding_by_group:
                             try:
                                 withholding_data = json.loads(invoice.withholding_by_group)
+                                # Criar os elementos a adicionar
+                                wht_elements_to_add = []
                                 for wht_tax in withholding_data:
-                                    ewithholding_tax = et.SubElement(edocument_totals, "WithholdingTax")
+                                    ewithholding_tax = et.Element("WithholdingTax")
                                     et.SubElement(ewithholding_tax, "WithholdingTaxType").text = wht_tax.get('code', '')
                                     et.SubElement(ewithholding_tax, "WithholdingTaxDescription").text = wht_tax.get('name', '')
                                     et.SubElement(ewithholding_tax, "WithholdingTaxAmount").text = "{:.2f}".format(wht_tax.get('amount', 0.0))
+                                    wht_elements_to_add.append(ewithholding_tax)
+
+                                # Inserir os novos elementos depois do DocumentTotals
+                                if wht_elements_to_add:
+                                    parent = edocument_totals.getparent()
+                                    index = parent.index(edocument_totals)
+                                    for i, element in enumerate(wht_elements_to_add, 1):
+                                        parent.insert(index + i, element)
                             except (json.JSONDecodeError, TypeError):
                                 pass
 
