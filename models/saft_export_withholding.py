@@ -34,7 +34,7 @@ class WizardSaftWithholding(models.Model):
 
         # Ordenação correta para SAFT: agrupa por tipo de documento, depois data, depois número
         invoices = sorted(invoices, key=lambda inv: (
-            inv.journal_id.saft_inv_type or '', # 1. Ordenar por tipo de documento (FT, NC, etc.)
+            'NC' if inv.move_type == 'out_refund' else inv.journal_id.saft_inv_type or '', # 1. Ordenar pelo tipo de documento correto
             inv.invoice_date,                   # 2. Ordenar por data da fatura
             inv.hash_date or inv.create_date,   # 3. Ordenar por data do sistema/hash
             extract_number(inv)                 # 4. Ordenar pelo número do documento
