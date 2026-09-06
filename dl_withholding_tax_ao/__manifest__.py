@@ -1,18 +1,22 @@
 {
-    'name': 'Withholding Tax Angola',
-    'version': '17.0.1.0.0',
-    'summary': 'Withholding Tax Management (Angola)',
+    'name': 'Withholding Tax Angola (Retenção na Fonte 6.5%)',
+    'version': '17.0.1.0.1',
+    'summary': 'Automated Withholding Tax (Retenção na Fonte 6.5%) & AGT Fiscal Compliance for Angola',
     'description': """
-Module to support Withholding Tax in Angola.
+Withholding Tax Management for Angola (Retenção na Fonte 6.5%)
+==============================================================
 
-Features:
-- Setting up withholding tax rates
-- Applying withholding tax on invoice lines
-- Automatic calculation of retention and net payable
-- Display on invoices, receipts and SAFT export (legal requirement in Angola)
+Automate Angolan legal withholding tax (Retenção na Fonte) calculation and reporting on Invoices and Vendor Bills:
+- Setup custom withholding rates and base calculation rules (6.5% standard services, rental, royalties).
+- Line-by-line withholding application on vendor bills and customer invoices.
+- Automated gross invoice calculation, withholding retention amount, and net payable.
+- Withholding tax certificates and statement PDF reports.
+- Ready for AGT fiscal integration and SAFT-AO XML reporting.
+- 100% compatible with Odoo 17 Community, Enterprise & Odoo.sh.
     """,
-    'author': 'DIGITALUB ANGOLA',
+    'author': 'DIGITALUB ANGOLA, LDA',
     'website': 'https://www.digitalub.ao',
+    'support': 'suporte@digitalub.ao',
     'license': 'AGPL-3',
     'category': 'Accounting',
     'depends': ['account'],

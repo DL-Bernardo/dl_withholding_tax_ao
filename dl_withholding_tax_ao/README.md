@@ -49,3 +49,11 @@ Withholding Tax: 6.5%
 Withholding amount: 6,500 Kz
 
 Net payable: 93,500 Kz
+
+---
+
+## 🛡️ Support & Maintenance
+Developed and maintained by **DIGITALUB ANGOLA, LDA**.
+- 📧 Support: [suporte@digitalub.ao](mailto:suporte@digitalub.ao)
+- 🌐 Website: [https://www.digitalub.ao](https://www.digitalub.ao)
+
