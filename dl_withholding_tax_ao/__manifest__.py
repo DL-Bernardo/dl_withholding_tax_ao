@@ -1,6 +1,6 @@
 {
-    'name': 'Withholding Tax Angola (Retenção na Fonte 6.5%)',
-    'version': '17.0.1.0.1',
+    'name': 'Angola Withholding Tax 6.5% (Retenção na Fonte)',
+    'version': '17.0.1.0.2',
     'summary': 'Automated Withholding Tax (Retenção na Fonte 6.5%) & AGT Fiscal Compliance for Angola',
     'description': """
 Withholding Tax Management for Angola (Retenção na Fonte 6.5%)
@@ -35,7 +35,7 @@ Automate Angolan legal withholding tax (Retenção na Fonte) calculation and rep
     'installable': True,
     'application': True,
     # Odoo Apps Store info
-    'price': 91.0,
-    'currency': 'USD',
+    'price': 45.0,
+    'currency': 'EUR',
     'images': ['static/description/banner.png'],
 }
