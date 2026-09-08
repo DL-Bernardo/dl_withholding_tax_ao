@@ -1,875 +1,206 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Withholding Tax Angola (Retenção na Fonte 6.5%) - DIGITALUB ANGOLA</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #0052cc;
-      --primary-dark: #07152b;
-      --primary-light: #e8f0fe;
-      --accent-cyan: #00d2ff;
-      --accent-gold: #f59e0b;
-      --accent-gradient: linear-gradient(135deg, #0052cc 0%, #00d2ff 100%);
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --bg-light: #f8fafc;
-      --bg-white: #ffffff;
-      --success: #10b981;
-      --success-light: #ecfdf5;
-      --purple: #7c3aed;
-      --purple-light: #f5f3ff;
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
-    }
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      color: var(--text-main);
-      background-color: #ffffff;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-    }
-    .dl-wrapper {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 30px 20px 80px;
-    }
-    /* Badges Bar */
-    .dl-badges-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 22px;
-      align-items: center;
-    }
-    .dl-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      border-radius: 9999px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-    .badge-community { background: var(--success-light); color: #047857; border: 1px solid #a7f3d0; }
-    .badge-enterprise { background: var(--purple-light); color: var(--purple); border: 1px solid #ddd6fe; }
-    .badge-odoosh { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
-    .badge-i18n { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
-    .badge-support { background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
+<section class="container my-5" style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1E293B; max-width: 1140px;">
 
-    /* Hero */
-    .dl-hero-header { margin-bottom: 24px; }
-    .dl-hero-title {
-      font-size: 2.35rem;
-      font-weight: 800;
-      color: var(--text-main);
-      line-height: 1.22;
-      margin: 0 0 14px;
-      letter-spacing: -0.6px;
-    }
-    .dl-hero-lead {
-      font-size: 1.12rem;
-      color: #475569;
-      line-height: 1.65;
-      margin: 0 0 20px;
-    }
-    .dl-hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 30px;
-    }
-    .dl-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 22px;
-      border-radius: 9999px;
-      font-size: 0.92rem;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      cursor: pointer;
-    }
-    .dl-btn-primary {
-      background: var(--primary);
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(0, 82, 204, 0.25);
-    }
-    .dl-btn-primary:hover {
-      background: #0043a8;
-      color: #ffffff;
-      transform: translateY(-1px);
-    }
-    .dl-btn-secondary {
-      background: #f1f5f9;
-      color: #334155;
-      border: 1px solid var(--border);
-    }
-    .dl-btn-secondary:hover {
-      background: #e2e8f0;
-      color: #0f172a;
-    }
-
-    /* Hero Banner */
-    .dl-hero-banner {
-      max-width: 900px;
-      margin: 0 auto 40px;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-    }
-    .dl-hero-banner img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* Metrics Strip */
-    .dl-metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 45px;
-    }
-    .dl-metric-card {
-      background: var(--bg-light);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 18px 20px;
-      text-align: center;
-      transition: transform 0.2s ease;
-    }
-    .dl-metric-card:hover {
-      transform: translateY(-2px);
-      border-color: #cbd5e1;
-    }
-    .dl-metric-value {
-      font-size: 1.75rem;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 4px;
-      letter-spacing: -0.5px;
-    }
-    .dl-metric-label {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      margin: 0;
-    }
-
-    /* Nav Anchor Pills */
-    .dl-nav-pills {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      margin: 40px 0 35px;
-      padding: 8px 12px;
-      background: var(--bg-light);
-      border: 1px solid var(--border);
-      border-radius: 9999px;
-    }
-    .dl-nav-link {
-      padding: 7px 16px;
-      border-radius: 9999px;
-      font-size: 0.86rem;
-      font-weight: 700;
-      color: #475569;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-    .dl-nav-link:hover {
-      background: #ffffff;
-      color: var(--primary);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    /* Section Headings */
-    .dl-section-heading {
-      text-align: center;
-      margin: 50px 0 32px;
-    }
-    .dl-section-heading h2 {
-      font-size: 1.85rem;
-      font-weight: 800;
-      color: var(--text-main);
-      margin: 0 0 8px;
-      letter-spacing: -0.5px;
-    }
-    .dl-section-heading p {
-      font-size: 1rem;
-      color: var(--text-muted);
-      margin: 0 auto;
-      max-width: 680px;
-    }
-
-    /* Feature Grid */
-    .dl-feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-bottom: 45px;
-    }
-    .dl-feature-card {
-      background: var(--bg-white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 24px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-      transition: all 0.25s ease;
-    }
-    .dl-feature-card:hover {
-      border-color: #cbd5e1;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-    }
-    .dl-feature-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 12px;
-      background: var(--primary-light);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      margin-bottom: 16px;
-    }
-    .dl-feature-card h3 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin: 0 0 8px;
-    }
-    .dl-feature-card p {
-      font-size: 0.93rem;
-      color: #64748b;
-      margin: 0;
-      line-height: 1.55;
-    }
-
-    /* Step Walkthrough Cards */
-    .dl-step-box {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 28px 24px;
-      margin-bottom: 32px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
-    }
-    .dl-step-header {
-      text-align: center;
-      max-width: 680px;
-      margin: 0 auto 20px;
-    }
-    .dl-step-badge {
-      display: inline-block;
-      background: var(--primary);
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 0.78rem;
-      padding: 3px 12px;
-      border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-    }
-    .dl-step-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin: 0 0 8px;
-    }
-    .dl-step-desc {
-      font-size: 0.95rem;
-      color: #475569;
-      margin: 0 auto 16px;
-      line-height: 1.55;
-    }
-    .dl-step-highlights {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .dl-step-highlight-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #334155;
-      background: var(--bg-light);
-      padding: 4px 12px;
-      border-radius: 9999px;
-      border: 1px solid var(--border);
-    }
-
-    /* Mockup Frames */
-    .dl-mockup-frame {
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
-      margin: 0 auto;
-      max-width: 760px;
-      border: 1px solid #cbd5e1;
-      background: #f8fafc;
-    }
-    .dl-mockup-bar {
-      padding: 8px 14px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #f1f5f9;
-      border-bottom: 1px solid #e2e8f0;
-    }
-    .dl-mockup-dots {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-    .dl-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-    .dl-dot-red { background: #ef4444; }
-    .dl-dot-yellow { background: #f59e0b; }
-    .dl-dot-green { background: #10b981; }
-    .dl-mockup-title {
-      margin-left: 10px;
-      font-size: 0.76rem;
-      font-weight: 600;
-      color: #64748b;
-      letter-spacing: 0.2px;
-    }
-    .dl-mockup-content {
-      padding: 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #ffffff;
-    }
-    .dl-mockup-content img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 6px;
-      border: 1px solid #e2e8f0;
-    }
-
-    /* Specs Table */
-    .dl-specs-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0 45px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      background: #ffffff;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-    }
-    .dl-specs-table th, .dl-specs-table td {
-      padding: 14px 20px;
-      text-align: left;
-      font-size: 0.94rem;
-    }
-    .dl-specs-table th {
-      background: #f1f5f9;
-      color: #1e293b;
-      font-weight: 700;
-      border-bottom: 1px solid var(--border);
-    }
-    .dl-specs-table tr:not(:last-child) td {
-      border-bottom: 1px solid var(--border);
-    }
-    .dl-specs-table tr:nth-child(even) td {
-      background: #f8fafc;
-    }
-    .dl-tag-verified {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      color: #047857;
-      font-weight: 700;
-      background: #ecfdf5;
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 0.82rem;
-      border: 1px solid #a7f3d0;
-    }
-
-    /* FAQ */
-    .dl-faq-container { margin-bottom: 50px; }
-    .dl-faq-item {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 20px 24px;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-    }
-    .dl-faq-item h4 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin: 0 0 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .dl-faq-item h4::before {
-      content: "Q";
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-      background: var(--primary-light);
-      color: var(--primary);
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 800;
-    }
-    .dl-faq-item p {
-      font-size: 0.94rem;
-      color: #475569;
-      margin: 0;
-      line-height: 1.6;
-      padding-left: 34px;
-    }
-
-    /* Ecosystem */
-    .dl-ecosystem-box {
-      background: radial-gradient(circle at 10% 20%, rgb(10, 24, 48) 0%, rgb(15, 32, 67) 90%);
-      color: #ffffff;
-      border-radius: var(--radius-lg);
-      padding: 40px;
-      margin: 50px 0 35px;
-      box-shadow: 0 15px 35px rgba(0, 82, 204, 0.2);
-    }
-    .dl-ecosystem-box h3 {
-      font-size: 1.65rem;
-      font-weight: 800;
-      margin: 0 0 8px;
-      color: #ffffff;
-    }
-    .dl-ecosystem-box p.dl-sub {
-      color: #94a3b8;
-      font-size: 1.02rem;
-      margin: 0 0 28px;
-    }
-    .dl-eco-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 16px;
-    }
-    .dl-eco-card {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: var(--radius-sm);
-      padding: 16px;
-      transition: all 0.2s ease;
-    }
-    .dl-eco-card:hover {
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateY(-2px);
-    }
-    .dl-eco-card h4 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin: 0 0 6px;
-    }
-    .dl-eco-card p {
-      font-size: 0.83rem;
-      color: #cbd5e1;
-      margin: 0;
-      line-height: 1.4;
-    }
-
-    /* Support Hub */
-    .dl-support-hub {
-      background: var(--bg-light);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 30px;
-      margin-top: 30px;
-    }
-    .dl-support-hub h4 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin: 0 0 8px;
-      color: var(--text-main);
-    }
-    .dl-support-hub p {
-      color: #64748b;
-      margin: 0 0 18px;
-      font-size: 0.95rem;
-    }
-    .dl-support-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 14px;
-    }
-    .dl-support-list li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.92rem;
-      color: #334155;
-    }
-    .dl-support-list a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 700;
-    }
-    .dl-support-list a:hover {
-      text-decoration: underline;
-    }
-
-    /* Footer */
-    .dl-footer {
-      text-align: center;
-      margin-top: 45px;
-      font-size: 0.88rem;
-      color: #94a3b8;
-    }
-    .dl-footer a {
-      color: #64748b;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .dl-footer a:hover {
-      color: var(--primary);
-    }
-  </style>
-</head>
-<body>
-  <div class="dl-wrapper">
-
-    <!-- 1. Trust Badges Bar -->
-    <div class="dl-badges-bar">
-      <span class="dl-badge badge-community">✓ Odoo Community</span>
-      <span class="dl-badge badge-enterprise">★ Odoo Enterprise</span>
-      <span class="dl-badge badge-odoosh">☁ 100% Odoo.sh Ready</span>
-      <span class="dl-badge badge-i18n">⚡ English &amp; Português (i18n)</span>
-      <span class="dl-badge badge-support">🛡️ Suporte Oficial Digitalub</span>
-    </div>
-
-    <!-- 2. Hero Header -->
-    <div class="dl-hero-header" id="overview">
-      <h1 class="dl-hero-title">Withholding Tax Angola (Retenção na Fonte 6.5%)</h1>
-      <p class="dl-hero-lead">
-        Complete, automated legal AGT tax compliance for Odoo 17. Effortlessly configure withholding rates, apply line-by-line deductions on vendor bills and customer invoices, calculate net payable in real time, and generate official withholding certificates and SAFT-AO XML integration.
-      </p>
-      <div class="dl-hero-actions">
-        <a href="https://demo.digitalub.ao" target="_blank" class="dl-btn dl-btn-primary">⚡ Explore Live Demo</a>
-        <a href="mailto:suporte@digitalub.ao" class="dl-btn dl-btn-secondary">💬 Contact Enterprise Support</a>
-      </div>
-    </div>
-
-    <!-- 3. Hero Banner -->
-    <div class="dl-hero-banner">
-      <img src="banner.png" alt="Withholding Tax Angola (Retenção na Fonte 6.5%) Banner" />
-    </div>
-
-    <!-- 4. Key Metrics Strip -->
-    <div class="dl-metrics-grid">
-      <div class="dl-metric-card">
-        <div class="dl-metric-value">6.5%</div>
-        <p class="dl-metric-label">Standard Services Tax Rate</p>
-      </div>
-      <div class="dl-metric-card">
-        <div class="dl-metric-value">100%</div>
-        <p class="dl-metric-label">AGT &amp; SAFT-AO Compliant</p>
-      </div>
-      <div class="dl-metric-card">
-        <div class="dl-metric-value">0s</div>
-        <p class="dl-metric-label">Manual Calculation Overhead</p>
-      </div>
-      <div class="dl-metric-card">
-        <div class="dl-metric-value">AOA</div>
-        <p class="dl-metric-label">Angolan Kwanza &amp; Multi-Currency</p>
-      </div>
-    </div>
-
-    <!-- 5. Navigation Anchor Bar -->
-    <div class="dl-nav-pills">
-      <a href="#overview" class="dl-nav-link">Overview</a>
-      <a href="#features" class="dl-nav-link">Capabilities</a>
-      <a href="#walkthrough" class="dl-nav-link">Visual Walkthrough</a>
-      <a href="#specs" class="dl-nav-link">Specifications</a>
-      <a href="#faq" class="dl-nav-link">FAQ</a>
-      <a href="#support" class="dl-nav-link">Support</a>
-    </div>
-
-    <!-- 6. Features Grid -->
-    <div class="dl-section-heading" id="features">
-      <h2>🚀 Enterprise Capabilities</h2>
-      <p>Engineered for full fiscal security, eliminating calculation mistakes and ensuring compliance with Angolan tax authority regulations.</p>
-    </div>
-    <div class="dl-feature-grid">
-      <div class="dl-feature-card">
-        <div class="dl-feature-icon">⚙️</div>
-        <h3>Flexible Tax Rate Configuration</h3>
-        <p>Pre-configured with standard 6.5% services retention, and supports arbitrary legal rates (rental 15%, royalties 10%, non-resident brackets) with customizable calculation base rules.</p>
-      </div>
-      <div class="dl-feature-card">
-        <div class="dl-feature-icon">🧾</div>
-        <h3>Line-by-Line Application</h3>
-        <p>Apply withholding tax directly on individual invoice lines. Seamlessly mix goods (without retention) and qualified services (with 6.5% retention) on the exact same vendor bill.</p>
-      </div>
-      <div class="dl-feature-card">
-        <div class="dl-feature-icon">🧮</div>
-        <h3>Automated Net Payable Calculation</h3>
-        <p>Dynamic calculation deducts the withholding amount from the invoice total, clearly indicating base amount, IVA, retention amount, and the final net payable (Líquido a Pagar).</p>
-      </div>
-      <div class="dl-feature-card">
-        <div class="dl-feature-icon">📄</div>
-        <h3>Official Withholding Certificates</h3>
-        <p>Generate print-ready Withholding Certificates (Declaração de Retenção na Fonte) and audit statements to deliver to suppliers and tax authorities with a single click.</p>
-      </div>
-      <div class="dl-feature-card">
-        <div class="dl-feature-icon">🇦🇴</div>
-        <h3>AGT &amp; SAFT-AO Integration</h3>
-        <p>Designed specifically to supply withholding data to Angolan fiscal reporting engines and SAFT-AO XML export modules mandated by the General Tax Administration.</p>
-      </div>
-      <div class="dl-feature-card">
-        <div class="dl-feature-icon">🛡️</div>
-        <h3>Clean Non-Intrusive Architecture</h3>
-        <p>Built with clean Odoo ORM inheritance on standard accounting models. No overrides of core workflows, guaranteeing 100% compatibility with Odoo Community, Enterprise, and Odoo.sh.</p>
-      </div>
-    </div>
-
-    <!-- 7. Step-by-Step Visual Walkthrough -->
-    <div class="dl-section-heading" id="walkthrough">
-      <h2>📸 Step-by-Step Product Walkthrough</h2>
-      <p>Discover how effortlessly withholding tax integrates into your standard invoicing workflow.</p>
-    </div>
-
-    <!-- Step 1 -->
-    <div class="dl-step-box">
-      <div class="dl-step-header">
-        <span class="dl-step-badge">Step 01</span>
-        <h3 class="dl-step-title">Configuration &amp; Tax Categories Master Setup</h3>
-        <p class="dl-step-desc">
-          Navigate to Invoicing &rarr; Configuration &rarr; Retenção na Fonte to review pre-loaded rates or create custom withholding rules tailored to your industry.
-        </p>
-        <div class="dl-step-highlights">
-          <span class="dl-step-highlight-item">✓ Invoicing Configuration Menu</span>
-          <span class="dl-step-highlight-item">✓ Pre-configured 6.5% Services Rate</span>
-          <span class="dl-step-highlight-item">✓ Fiscal Account Mapping</span>
-        </div>
-      </div>
-      <div class="dl-mockup-frame">
-        <div class="dl-mockup-bar">
-          <div class="dl-mockup-dots">
-            <span class="dl-dot dl-dot-red"></span>
-            <span class="dl-dot dl-dot-yellow"></span>
-            <span class="dl-dot dl-dot-green"></span>
-          </div>
-          <span class="dl-mockup-title">Accounting &gt; Configuration &gt; Retenção na Fonte</span>
-        </div>
-        <div class="dl-mockup-content">
-          <img src="screenshot1.png" alt="Withholding Tax Configuration in Odoo" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 2 -->
-    <div class="dl-step-box">
-      <div class="dl-step-header">
-        <span class="dl-step-badge">Step 02</span>
-        <h3 class="dl-step-title">Line-by-Line Selection on Vendor Bills</h3>
-        <p class="dl-step-desc">
-          When entering a supplier invoice, select the withholding rate directly in the dedicated column for applicable service lines. Goods lines remain untaxed by retention.
-        </p>
-        <div class="dl-step-highlights">
-          <span class="dl-step-highlight-item">✓ Retenção na Fonte Column</span>
-          <span class="dl-step-highlight-item">✓ Mixed Invoice Line Support</span>
-          <span class="dl-step-highlight-item">✓ Automatic Base Detection</span>
-        </div>
-      </div>
-      <div class="dl-mockup-frame">
-        <div class="dl-mockup-bar">
-          <div class="dl-mockup-dots">
-            <span class="dl-dot dl-dot-red"></span>
-            <span class="dl-dot dl-dot-yellow"></span>
-            <span class="dl-dot dl-dot-green"></span>
-          </div>
-          <span class="dl-mockup-title">Vendor Bill Line — Selecting II - Serviços (6.5%)</span>
-        </div>
-        <div class="dl-mockup-content">
-          <img src="screenshot2.png" alt="Invoice Line Withholding Tax Selection" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 3 -->
-    <div class="dl-step-box">
-      <div class="dl-step-header">
-        <span class="dl-step-badge">Step 03</span>
-        <h3 class="dl-step-title">Automatic Totals &amp; Net Payable Calculation</h3>
-        <p class="dl-step-desc">
-          The financial summary immediately updates: gross invoice total, retention amount deducted, and the final net amount payable to the supplier (Líquido a Pagar).
-        </p>
-        <div class="dl-step-highlights">
-          <span class="dl-step-highlight-item">✓ Valor da Retenção: 6,500.00 Kz</span>
-          <span class="dl-step-highlight-item">✓ Líquido a Pagar: 93,500.00 Kz</span>
-          <span class="dl-step-highlight-item">✓ Automated Payment Reconciliation</span>
-        </div>
-      </div>
-      <div class="dl-mockup-frame">
-        <div class="dl-mockup-bar">
-          <div class="dl-mockup-dots">
-            <span class="dl-dot dl-dot-red"></span>
-            <span class="dl-dot dl-dot-yellow"></span>
-            <span class="dl-dot dl-dot-green"></span>
-          </div>
-          <span class="dl-mockup-title">Invoice Financial Totals — Withholding &amp; Net Payable</span>
-        </div>
-        <div class="dl-mockup-content">
-          <img src="screenshot3.png" alt="Withholding Tax Totals and Net Payable" />
-        </div>
-      </div>
-    </div>
-
-    <!-- 8. Technical Architecture & Compatibility -->
-    <div class="dl-section-heading" id="specs">
-      <h2>📋 Technical Specifications &amp; Compatibility</h2>
-      <p>Clean architecture adhering strictly to Odoo's official framework guidelines.</p>
-    </div>
-    <table class="dl-specs-table">
-      <tr>
-        <th style="width: 32%;">Parameter</th>
-        <th>Specification Details</th>
-      </tr>
-      <tr>
-        <td><strong>Technical Name</strong></td>
-        <td><code>dl_withholding_tax_ao</code></td>
-      </tr>
-      <tr>
-        <td><strong>Version</strong></td>
-        <td><code>17.0.1.0.1</code> <span class="dl-tag-verified">✓ Verified Release</span></td>
-      </tr>
-      <tr>
-        <td><strong>Supported Editions</strong></td>
-        <td>Odoo 17.0 Community &amp; Odoo 17.0 Enterprise</td>
-      </tr>
-      <tr>
-        <td><strong>Odoo.sh Compatibility</strong></td>
-        <td><span class="dl-tag-verified">✓ 100% Odoo.sh Certified</span> (Zero external OS binaries required)</td>
-      </tr>
-      <tr>
-        <td><strong>Core Dependencies</strong></td>
-        <td><code>account</code> (Standard Invoicing / Accounting)</td>
-      </tr>
-      <tr>
-        <td><strong>Fiscal Compliance</strong></td>
-        <td>Angola AGT (Administração Geral Tributária) &amp; SAFT-AO XML Architecture</td>
-      </tr>
-      <tr>
-        <td><strong>Localization &amp; Languages</strong></td>
-        <td>English (en_US), Portuguese / Português de Angola (pt_AO, pt_PT)</td>
-      </tr>
-      <tr>
-        <td><strong>License</strong></td>
-        <td><code>AGPL-3</code> (Digitalub Angola)</td>
-      </tr>
-      <tr>
-        <td><strong>Publisher &amp; Author</strong></td>
-        <td><strong>DIGITALUB ANGOLA, LDA</strong> &middot; <a href="https://www.digitalub.ao" target="_blank">www.digitalub.ao</a></td>
-      </tr>
-    </table>
-
-    <!-- 9. Pre-Sales FAQ -->
-    <div class="dl-section-heading" id="faq">
-      <h2>❓ Frequently Asked Questions (FAQ)</h2>
-      <p>Straightforward answers to key architectural, fiscal, and licensing questions.</p>
-    </div>
-    <div class="dl-faq-container">
-      <div class="dl-faq-item">
-        <h4>How does the 6.5% withholding tax calculation work in Angola?</h4>
-        <p>Under Angolan tax legislation (Código do Imposto Industrial e Lei das Finanças Públicas), entities paying for technical or management services must retain 6.5% of the base taxable amount (excluding IVA) and remit it to the tax authority (AGT). The module automatically computes <code>Withholding = Base &times; 6.5%</code> and calculates <code>Líquido a Pagar = (Base + IVA) - Withholding</code>.</p>
-      </div>
-      <div class="dl-faq-item">
-        <h4>Does this module support both Vendor Bills and Customer Invoices?</h4>
-        <p>Yes. While withholding tax is primarily retained by buyers on vendor bills (self-billing and supplier payments), the module also supports customer invoices when corporate or public entities apply withholding tax on payments made to your company.</p>
-      </div>
-      <div class="dl-faq-item">
-        <h4>Can I define custom tax rates besides 6.5%?</h4>
-        <p>Yes. You have full freedom in Accounting &rarr; Configuration &rarr; Retenção na Fonte to create arbitrary tax rules, such as commercial property rental (15%), royalties (10%), or specialized non-resident brackets.</p>
-      </div>
-      <div class="dl-faq-item">
-        <h4>Is this module compatible with Odoo.sh?</h4>
-        <p>Yes, 100%. The module is built strictly in Python and XML following official Odoo ORM guidelines with no external C-bindings or system dependencies, guaranteeing seamless deployment on Odoo.sh, Docker, or on-premise servers.</p>
-      </div>
-      <div class="dl-faq-item">
-        <h4>Does it conflict with standard Odoo accounting entries?</h4>
-        <p>No. It uses standard non-intrusive model inheritance, cleanly managing retention lines without altering or breaking standard journal item validation workflows.</p>
-      </div>
-      <div class="dl-faq-item">
-        <h4>How do I obtain support or request customized reports?</h4>
-        <p>Digitalub Angola provides direct email and ticket support at <a href="mailto:suporte@digitalub.ao">suporte@digitalub.ao</a>. We offer implementation support, fiscal configuration reviews, and tailored PDF layouts.</p>
-      </div>
-    </div>
-
-    <!-- 10. Ecosystem Cross-Promotion -->
-    <div class="dl-ecosystem-box">
-      <h3>🌐 DIGITALUB Enterprise Software Suite</h3>
-      <p class="dl-sub">Maximize your ERP ROI with our specialized Odoo solutions for hospitality, retail, taxation, and logistics.</p>
-      <div class="dl-eco-grid">
-        <div class="dl-eco-card">
-          <h4>🏨 DL Hotel Management</h4>
-          <p>Complete PMS with room folio, front-desk reservation calendar, housekeeping, and POS integration.</p>
-        </div>
-        <div class="dl-eco-card">
-          <h4>🔐 DL Force Password Change</h4>
-          <p>Enterprise security enforcement requiring users to update temporary passwords on first login.</p>
-        </div>
-        <div class="dl-eco-card">
-          <h4>🔢 DL Invoice Line Sequence</h4>
-          <p>Clean sequential item indexing (1, 2, 3...) on sales orders, quotes, vendor bills, and invoices.</p>
-        </div>
-        <div class="dl-eco-card">
-          <h4>📱 DL Mobile Barcode Scanner</h4>
-          <p>Real-time warehouse scanning for receipts, deliveries, transfers, and inventory counts.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 11. Support & Guarantee Hub -->
-    <div class="dl-support-hub" id="support">
-      <h4>🛡️ Certified DIGITALUB Guarantee &amp; Support</h4>
-      <p>Developed and maintained by <strong>DIGITALUB ANGOLA, LDA</strong>. We provide enterprise deployment support, customization services, and bug fixes.</p>
-      <ul class="dl-support-list">
-        <li>📧 <strong>Support Email:</strong> <a href="mailto:suporte@digitalub.ao">suporte@digitalub.ao</a></li>
-        <li>🌐 <strong>Official Website:</strong> <a href="https://www.digitalub.ao" target="_blank">www.digitalub.ao</a></li>
-        <li>🖥️ <strong>Live Demonstration:</strong> <a href="https://demo.digitalub.ao" target="_blank">demo.digitalub.ao</a></li>
-      </ul>
-    </div>
-
-    <!-- 12. Footer -->
-    <div class="dl-footer">
-      <p>&copy; 2026 <strong>DIGITALUB ANGOLA, LDA</strong>. All Rights Reserved. Odoo is a trademark of Odoo S.A.</p>
-    </div>
-
+  <!-- BANNER PRINCIPAL OFICIAL -->
+  <div class="text-center mb-5">
+    <img src="banner.png" alt="Retenção na Fonte 6.5% Automática para Angola - Banner Oficial" class="img-fluid rounded-4 shadow-sm" style="width: 100%; border: 1px solid #E2E8F0;" />
   </div>
-</body>
-</html>
+
+  <!-- BLOCO 1: HERO HEADER (Proposta de Valor Imediata) -->
+  <div class="p-4 p-md-5 mb-5 rounded-4 text-white shadow-sm" style="background: linear-gradient(135deg, #0B1F44 0%, #1259C3 100%);">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <!-- Badges no Topo -->
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); color: #FFFFFF; font-size: 0.8rem;">InvoiceOne Suite</span>
+          <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); color: #FFFFFF; font-size: 0.8rem;">Angola AGT Compliance</span>
+        </div>
+        
+        <!-- Título H1 Focado no Benefício -->
+        <h1 class="display-6 fw-bold mb-3" style="color: #FFFFFF; letter-spacing: -0.5px; line-height: 1.2;">
+          Retenção na Fonte 6.5% Automática para Angola
+        </h1>
+        
+        <!-- Subtítulo Lead -->
+        <p class="lead mb-4" style="color: #E2E8F0; font-size: 1.15rem; line-height: 1.6; max-width: 650px;">
+          Elimine cálculos manuais e riscos de autuação fiscal. Automatize a retenção na fonte sobre prestação de serviços nas faturas com segregação contábil imediata.
+        </p>
+        
+        <!-- Badges de Compatibilidade -->
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+          <span class="badge bg-white text-dark px-3 py-2 rounded-pill fw-bold" style="font-size: 0.8rem;">✔ Odoo 17.0 • 18.0</span>
+          <span class="badge px-3 py-2 rounded-pill fw-semibold text-white" style="background-color: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25); font-size: 0.8rem;">Community & Enterprise</span>
+          <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: rgba(16, 185, 129, 0.25); border: 1px solid #10B981; font-size: 0.8rem; color: #A7F3D0;">Plug &amp; Play / Ready for Production</span>
+        </div>
+      </div>
+      
+      <!-- Coluna da Direita: Card Translúcido -->
+      <div class="col-lg-4 text-center">
+        <div class="p-4 rounded-4 shadow-sm" style="background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.25);">
+          <span class="badge px-3 py-2 rounded-pill mb-2 fw-semibold" style="background-color: rgba(255, 255, 255, 0.2); color: #FFFFFF; font-size: 0.75rem; letter-spacing: 0.5px;">DESTAQUE OPERACIONAL</span>
+          <div class="display-4 fw-bold my-2" style="color: #FFFFFF; letter-spacing: -1px;">
+            6.5%
+          </div>
+          <p class="fw-semibold mb-1" style="color: #BAE6FD; font-size: 1.05rem;">
+            Automação AGT
+          </p>
+          <p class="small mb-0" style="color: #E2E8F0; font-size: 0.85rem;">
+            Cálculo e dedução instantânea nas faturas sem erros manuais.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 2: CARDS DE BENEFÍCIOS (Os 3 Pilares) -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-4">
+      <div class="p-4 rounded-4 h-100 shadow-sm" style="background-color: #F8FAFC; border-top: 4px solid #1259C3; border-left: 1px solid #E2E8F0; border-right: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0;">
+        <div class="d-inline-flex p-3 rounded-3 mb-3" style="background-color: rgba(18, 89, 195, 0.1); color: #1259C3;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        </div>
+        <h3 class="h5 fw-bold mb-2" style="color: #0B1F44;">Cálculo e Dedução Imediata</h3>
+        <p class="text-secondary mb-0 small" style="line-height: 1.6;">
+          Aplica a taxa de retenção configurada diretamente nas linhas das faturas de fornecedores ou clientes, recalculando o valor líquido a pagar em tempo real sem fórmulas manuais.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="p-4 rounded-4 h-100 shadow-sm" style="background-color: #F8FAFC; border-top: 4px solid #1259C3; border-left: 1px solid #E2E8F0; border-right: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0;">
+        <div class="d-inline-flex p-3 rounded-3 mb-3" style="background-color: rgba(18, 89, 195, 0.1); color: #1259C3;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+        </div>
+        <h3 class="h5 fw-bold mb-2" style="color: #0B1F44;">Segregação Contábil Rigorosa</h3>
+        <p class="text-secondary mb-0 small" style="line-height: 1.6;">
+          Gera automaticamente as partidas dobradas na conta de retenção do Estado (Conta 34.x), mantendo a contabilidade perfeitamente conciliada com os extratos bancários.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="p-4 rounded-4 h-100 shadow-sm" style="background-color: #F8FAFC; border-top: 4px solid #1259C3; border-left: 1px solid #E2E8F0; border-right: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0;">
+        <div class="d-inline-flex p-3 rounded-3 mb-3" style="background-color: rgba(18, 89, 195, 0.1); color: #1259C3;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        </div>
+        <h3 class="h5 fw-bold mb-2" style="color: #0B1F44;">Destaque Legal no PDF e Mapas</h3>
+        <p class="text-secondary mb-0 small" style="line-height: 1.6;">
+          Exibe com transparência o valor ilíquido, taxa aplicada e montante líquido final nos documentos comerciais, gerando os mapas oficiais para liquidação à AGT.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 3: FLUXO OPERACIONAL EM 3 PASSOS (Showcase Visual) -->
+  <div class="mb-5">
+    <div class="text-center mb-5">
+      <span class="badge px-3 py-2 rounded-pill text-uppercase fw-semibold" style="background-color: rgba(18, 89, 195, 0.1); color: #1259C3; font-size: 0.8rem; letter-spacing: 0.5px;">Workflow Guiado</span>
+      <h2 class="h3 fw-bold mt-2" style="color: #0B1F44;">Como Funciona na Prática</h2>
+      <p class="text-muted mx-auto" style="max-width: 600px;">Implementação descomplicada com retorno operacional imediato em 3 etapas simples.</p>
+    </div>
+
+    <!-- Passo 1 -->
+    <div class="row align-items-center g-4 mb-5">
+      <div class="col-lg-5">
+        <span class="badge px-3 py-2 rounded-pill fw-bold text-white mb-3" style="background-color: #1259C3;">Passo 1</span>
+        <h3 class="h4 fw-bold mb-3" style="color: #0B1F44;">Configuração Centralizada das Taxas e Regras</h3>
+        <p class="text-secondary mb-0" style="line-height: 1.6;">Defina alíquotas padrão por categoria de serviço ou parceiro comercial. As regras integram-se de forma transparente com o plano geral de contas de Angola.</p>
+      </div>
+      <div class="col-lg-7 text-center">
+        <img src="screenshot1.png" alt="Configuração Centralizada das Taxas e Regras" class="img-fluid rounded-4 shadow-sm" style="border: 1px solid #E2E8F0; width: 100%;" />
+      </div>
+    </div>
+
+    <!-- Passo 2 (flex-lg-row-reverse) -->
+    <div class="row align-items-center flex-lg-row-reverse g-4 mb-5">
+      <div class="col-lg-5">
+        <span class="badge px-3 py-2 rounded-pill fw-bold text-white mb-3" style="background-color: #1259C3;">Passo 2</span>
+        <h3 class="h4 fw-bold mb-3" style="color: #0B1F44;">Aplicação Instantânea na Linha da Fatura</h3>
+        <p class="text-secondary mb-0" style="line-height: 1.6;">Ao adicionar serviços elegíveis, o sistema sugere ou aplica a retenção de 6.5%, recalculando a base tributável e atualizando o subtotal instantaneamente.</p>
+      </div>
+      <div class="col-lg-7 text-center">
+        <img src="screenshot2.png" alt="Aplicação Instantânea na Linha da Fatura" class="img-fluid rounded-4 shadow-sm" style="border: 1px solid #E2E8F0; width: 100%;" />
+      </div>
+    </div>
+
+    <!-- Passo 3 -->
+    <div class="row align-items-center g-4">
+      <div class="col-lg-5">
+        <span class="badge px-3 py-2 rounded-pill fw-bold text-white mb-3" style="background-color: #1259C3;">Passo 3</span>
+        <h3 class="h4 fw-bold mb-3" style="color: #0B1F44;">Apuração Contábil e Total Líquido a Pagar</h3>
+        <p class="text-secondary mb-0" style="line-height: 1.6;">O rodapé da fatura e os relatórios fiscais discriminam o valor retido e o líquido devido, garantindo conformidade absoluta nas inspeções tributárias.</p>
+      </div>
+      <div class="col-lg-7 text-center">
+        <img src="screenshot3.png" alt="Apuração Contábil e Total Líquido a Pagar" class="img-fluid rounded-4 shadow-sm" style="border: 1px solid #E2E8F0; width: 100%;" />
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 4: TABELA DE ESPECIFICAÇÕES E COMPATIBILIDADE -->
+  <div class="card p-4 p-md-5 mb-5 rounded-4 shadow-sm bg-white" style="border: 1px solid #E2E8F0;">
+    <div class="d-flex align-items-center mb-4">
+      <div class="p-2 rounded-3 me-3" style="background-color: rgba(18, 89, 195, 0.1); color: #1259C3;">
+        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      </div>
+      <div>
+        <h3 class="h4 fw-bold mb-1" style="color: #0B1F44;">Especificações Técnicas &amp; Compatibilidade</h3>
+        <p class="text-muted mb-0 small">Garantia de total interoperabilidade com a arquitetura oficial Odoo</p>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-borderless align-middle mb-0">
+        <tbody>
+          <tr style="border-bottom: 1px solid #F1F5F9;">
+            <td class="fw-semibold text-secondary py-3" style="width: 32%;">Versões Suportadas</td>
+            <td class="py-3 text-dark fw-medium">Odoo 17.0, 18.0 (Community & Enterprise)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #F1F5F9;">
+            <td class="fw-semibold text-secondary py-3">Módulos Nativos Necessários</td>
+            <td class="py-3 text-dark fw-medium"><code>account (Faturação / Contabilidade)</code></td>
+          </tr>
+          <tr style="border-bottom: 1px solid #F1F5F9;">
+            <td class="fw-semibold text-secondary py-3">Integração com Ecossistema</td>
+            <td class="py-3 text-dark fw-medium">Compatível com a Suite InvoiceOne e Módulos Fiscais AGT de Angola</td>
+          </tr>
+          <tr>
+            <td class="fw-semibold text-secondary py-3">Tipo de Instalação</td>
+            <td class="py-3 text-dark fw-medium">Standard Odoo Addon &bull; Sem dependências externas complexas &bull; Instalação Plug &amp; Play</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BLOCO 5: SEÇÃO DE GARANTIA E CONFIANÇA -->
+  <div class="p-4 p-md-5 mb-4 rounded-4 shadow-sm" style="background-color: #F1F5F9; border: 1px solid #E2E8F0;">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <div class="d-flex align-items-center mb-3">
+          <span class="badge px-3 py-2 rounded-pill me-2 text-white fw-semibold" style="background-color: #0B1F44;">DIGITALUB ANGOLA</span>
+          <span class="badge px-3 py-2 rounded-pill text-white fw-semibold" style="background-color: #1259C3;">Engenharia ERP Oficial</span>
+        </div>
+        <h3 class="h4 fw-bold mb-2" style="color: #0B1F44;">Desenvolvido por Digitalub — Soluções Digitais</h3>
+        <p class="text-secondary mb-3" style="line-height: 1.6;">
+          Especialistas de referência em arquitetura ERP Odoo, soluções de alta performance e conformidade fiscal e regulatória para Angola. Os nossos módulos são desenvolvidos sob rigorosos padrões de código limpo, testes contínuos e estabilidade em produção.
+        </p>
+        <div class="d-flex flex-wrap gap-3 align-items-center">
+          <div class="d-flex align-items-center text-secondary small fw-medium">
+            <span class="me-2" style="color: #10B981; font-size: 1.1rem;">✔</span> Suporte Gratuito para Correção de Bugs (60 Dias)
+          </div>
+          <div class="d-flex align-items-center text-secondary small fw-medium">
+            <span class="me-2" style="color: #10B981; font-size: 1.1rem;">✔</span> Código Fonte Aberto &bull; Odoo.sh &amp; On-Premise
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 text-lg-end">
+        <a href="mailto:suporte@digitalub.ao?subject=Suporte%20M%C3%B3dulo%20dl_withholding_tax_ao" class="btn btn-lg px-4 py-3 rounded-pill text-white fw-bold shadow-sm" style="background-color: #1259C3; text-decoration: none; display: inline-block;">
+          Solicitar Suporte Técnico
+        </a>
+        <div class="mt-2 small text-muted">Portal oficial: <a href="https://www.digitalub.ao" target="_blank" style="color: #1259C3; text-decoration: none; font-weight: 500;">www.digitalub.ao</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RODAPÉ INSTITUCIONAL -->
+  <div class="text-center text-muted small py-3">
+    &copy; 2026 <strong>DIGITALUB ANGOLA, LDA</strong> &middot; Todos os direitos reservados. Odoo &eacute; uma marca registada de Odoo S.A.
+  </div>
+
+</section>
