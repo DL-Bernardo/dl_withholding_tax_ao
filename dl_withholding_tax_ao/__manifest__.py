@@ -1,6 +1,6 @@
 {
     'name': 'Angola Withholding Tax 6.5% (Retenção na Fonte)',
-    'version': '17.0.1.0.3',
+    'version': '17.0.1.0.4',
     'summary': 'Automated Withholding Tax (Retenção na Fonte 6.5%) & AGT Fiscal Compliance for Angola',
     'description': """
 Withholding Tax Management for Angola (Retenção na Fonte 6.5%)
