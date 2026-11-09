@@ -6,14 +6,14 @@
         <field name="name">withholding.tax.tree</field>
         <field name="model">withholding.tax</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="code"/>
                 <field name="tax_type"/>
                 <field name="percentage"/>
                 <field name="account_id"/>
                 <field name="company_id" groups="base.group_multi_company"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -39,7 +39,7 @@
     <record id="action_withholding" model="ir.actions.act_window">
         <field name="name">Retenção na Fonte</field>
         <field name="res_model">withholding.tax</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_withholding_action"
