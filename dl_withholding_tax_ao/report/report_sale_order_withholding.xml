@@ -40,7 +40,7 @@
         </xpath>
 
         <!-- Corpo da Tabela -->
-        <xpath expr="//td[@name='td_taxes']" position="after">
+        <xpath expr="//td[@name='td_product_taxes']" position="after">
             <td t-if="doc.withholding_amount &gt; 0" class="text-end">
                 <span t-esc="line.get_line_withholding()" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
             </td>
