@@ -2,7 +2,6 @@
     <data>
         <record id="group_withholding_manager" model="res.groups">
             <field name="name">Gestor de Retenção</field>
-            <field name="category_id" ref="base.module_category_accounting_accounting"/>
             <field name="implied_ids" eval="[(4, ref('account.group_account_invoice'))]"/>
             <field name="comment">O utilizador pode criar e gerir as taxas de retenção na fonte.</field>
         </record>
