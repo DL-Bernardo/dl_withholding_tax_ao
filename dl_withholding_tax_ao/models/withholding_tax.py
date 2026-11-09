@@ -17,7 +17,7 @@ class WithholdingTax(models.Model):
         'account.account',
         string="Conta Contabilística",
         required=False,
-        domain="[('deprecated', '=', False), ('company_id', 'in', allowed_company_ids)]",
+        domain="[('deprecated', '=', False), ('company_id', '=', company_id)]",
         help="Conta para registar o valor da retenção."
     )
     company_id = fields.Many2one(

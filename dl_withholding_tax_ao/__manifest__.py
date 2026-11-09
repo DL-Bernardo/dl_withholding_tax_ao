@@ -1,6 +1,6 @@
 {
     'name': 'Angola Withholding Tax 6.5% (Retenção na Fonte)',
-    'version': '17.0.1.0.7',
+    'version': '16.0.1.0.7',
     'summary': 'Automated Withholding Tax (Retenção na Fonte 6.5%, IP 15%, IVA Cativo) on Quotations, Invoices & Vendor Bills for Angola',
     'description': """
 Withholding Tax Management for Angola (Retenção na Fonte 6.5%)
