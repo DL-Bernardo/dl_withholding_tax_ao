@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Adiciona o campo de Retenção na Fonte na linha do Orçamento / Ordem de Venda -->
+    <record id="view_order_form_withholding" model="ir.ui.view">
+        <field name="name">sale.order.form.withholding</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="after">
+                <field name="withholding_tax_id"
+                       string="Retenção na Fonte"
+                       domain="[('company_id', '=', parent.company_id)]"
+                       optional="show"/>
+                <field name="withholding_amount"
+                       string="Valor Retido"
+                       optional="show"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="after">
+                <field name="withholding_tax_id"
+                       string="Retenção na Fonte"
+                       domain="[('company_id', '=', parent.company_id)]"/>
+                <field name="withholding_amount"
+                       string="Valor Retido"/>
+            </xpath>
+
+            <!-- Adiciona o resumo de Retenções e Valor Líquido debaixo dos impostos -->
+            <xpath expr="//group[@name='sale_total']" position="inside">
+                <field name="withholding_amount"
+                       string="Valor da Retenção"
+                       widget="monetary"
+                       options="{'currency_field': 'currency_id'}"
+                       invisible="withholding_amount == 0"/>
+                <div class="oe_subtotal_footer_separator oe_inline o_td_label" invisible="withholding_amount == 0">
+                    <label for="net_amount" string="Líquido a Pagar"/>
+                </div>
+                <field name="net_amount"
+                       nolabel="1"
+                       class="oe_subtotal_footer_separator"
+                       widget="monetary"
+                       options="{'currency_field': 'currency_id'}"
+                       invisible="withholding_amount == 0"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

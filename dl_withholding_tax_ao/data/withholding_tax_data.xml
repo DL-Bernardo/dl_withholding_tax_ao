@@ -7,7 +7,7 @@
         -->
         <record id="wt_lei_19_14_mn" model="withholding.tax">
             <field name="name">II - Serviços (6.5%)</field>
-            <field name="code">II_SERV</field>
+            <field name="code">II</field>
             <field name="tax_type">ii</field>
             <field name="percentage">6.5</field>
             <field name="company_id" ref="base.main_company"/>
@@ -15,17 +15,33 @@
 
         <record id="wt_lei_19_14_me" model="withholding.tax">
             <field name="name">II - Serviços (Não Residentes - 15%)</field>
-            <field name="code">II_SERV_NR</field>
+            <field name="code">II</field>
             <field name="tax_type">ii</field>
             <field name="percentage">15</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
 
         <record id="wt_ipu" model="withholding.tax">
-            <field name="name">IPU - Rendas (15%)</field>
-            <field name="code">IPU_REND</field>
+            <field name="name">IP - Rendas (15%)</field>
+            <field name="code">IP</field>
             <field name="tax_type">ipu</field>
             <field name="percentage">15</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="wt_iva_cativo_100" model="withholding.tax">
+            <field name="name">IVA Cativo (100%)</field>
+            <field name="code">IVA</field>
+            <field name="tax_type">iva</field>
+            <field name="percentage">100</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="wt_iva_cativo_50" model="withholding.tax">
+            <field name="name">IVA Cativo (50%)</field>
+            <field name="code">IVA</field>
+            <field name="tax_type">iva</field>
+            <field name="percentage">50</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
     </data>

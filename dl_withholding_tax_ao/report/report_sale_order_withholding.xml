@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saleorder_document_withholding" inherit_id="sale.report_saleorder_document" priority="999999">
+        
+        <!-- 1. Quadro de resumo de retenções -->
+        <xpath expr="//div[@id='total']" position="before">
+            <div t-if="doc.withholding_amount &gt; 0" class="row mt-3" style="page-break-inside: avoid; font-size:9pt;">
+                <div class="col-8">
+                    <table class="table table-sm table-bordered" style="border: 1px solid #ddd;">
+                        <thead>
+                            <tr>
+                                <th colspan="3" class="text-center" style="background-color: #f2f2f2; border: 1px solid #ddd;"><strong>QUADRO DAS RETENÇÕES</strong></th>
+                            </tr>
+                            <tr style="background-color: #f8f9fa;">
+                                <th class="text-left" style="border: 1px solid #ddd;">TIPO DE RETENÇÃO</th>
+                                <th class="text-center" style="border: 1px solid #ddd;">VALOR BASE</th>
+                                <th class="text-center" style="border: 1px solid #ddd;">VALOR A RETER</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.get_wht_groups_for_report()" t-as="wht_group">
+                                <td class="text-left" style="border: 1px solid #ddd;"><span t-esc="wht_group[0]"/></td>
+                                <td class="text-center" style="border: 1px solid #ddd;"><span t-esc="wht_group[1]" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                                <td class="text-center" style="border: 1px solid #ddd;"><span t-esc="wht_group[2]" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <t t-set="has_iva_cativo" t-value="doc.withholding_by_group and 'IVA Cativo' in doc.withholding_by_group"/>
+                    <p t-if="has_iva_cativo" style="font-weight:bold; color:#000000; font-size: 13px; margin-top: 8px; text-transform: uppercase;">
+                        IVA CATIVADO NOS TERMOS DO ARTIGO 21º DO CIVA
+                    </p>
+                </div>
+            </div>
+        </xpath>
+
+        <!-- 2. Cabeçalho da Tabela Principal de Vendas -->
+        <xpath expr="//th[@name='th_taxes']" position="after">
+            <th t-if="doc.withholding_amount &gt; 0" name="th_withholding" class="text-end">RETENÇÃO</th>
+        </xpath>
+
+        <!-- Corpo da Tabela -->
+        <xpath expr="//td[@name='td_taxes']" position="after">
+            <td t-if="doc.withholding_amount &gt; 0" class="text-end">
+                <span t-esc="line.get_line_withholding()" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+            </td>
+        </xpath>
+
+        <!-- 3. Totais no Quadro Inferior -->
+        <xpath expr="//div[@id='total']//table" position="inside">
+            <t t-if="doc.withholding_amount &gt; 0">
+                <tr class="border-black o_total">
+                    <td><strong>Retenção na Fonte</strong></td>
+                    <td class="text-end"><span t-field="doc.withholding_amount"/></td>
+                </tr>
+                <tr class="border-black o_total">
+                    <td><strong>Líquido a Pagar</strong></td>
+                    <td class="text-end fw-bold"><span t-field="doc.net_amount"/></td>
+                </tr>
+            </t>
+        </xpath>
+    </template>
+</odoo>

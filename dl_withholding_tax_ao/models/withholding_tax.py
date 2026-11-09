@@ -8,15 +8,16 @@ class WithholdingTax(models.Model):
     code = fields.Char(string="Código", required=True)
     tax_type = fields.Selection([
         ('ii', 'Imposto Industrial'),
-        ('ipu', 'Imposto Predial Urbano'),
-        ('iac', 'Imposto sobre Aplicação de Capitais')
+        ('ipu', 'Imposto Predial (IP)'),
+        ('iac', 'Imposto sobre Aplicação de Capitais'),
+        ('iva', 'IVA Cativo')
     ], string="Tipo de Imposto", required=True, default='ii')
     percentage = fields.Float(string="% Imposto", required=True)
     account_id = fields.Many2one(
         'account.account',
         string="Conta Contabilística",
         required=False,
-        domain="[('deprecated', '=', False), ('company_id', '=', company_id)]",
+        domain="[('deprecated', '=', False), ('company_id', 'in', allowed_company_ids)]",
         help="Conta para registar o valor da retenção."
     )
     company_id = fields.Many2one(

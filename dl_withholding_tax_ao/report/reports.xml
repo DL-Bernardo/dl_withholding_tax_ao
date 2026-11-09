@@ -1,62 +1,86 @@
 <odoo>
-    <template id="report_invoice_document_inherit_withholding" inherit_id="account.report_invoice_document">
-        <!-- Substitui o bloco de totais inteiro para uma estrutura de 2 colunas com resumos -->
-        <xpath expr="//div[@id='total']" position="replace">
-            <div id="total" class="row">
-                <!-- Coluna da Esquerda: Resumo de Retenções -->
-                <div class="col-6">
-                    <!-- Quadro de Retenções -->
-                    <table class="table table-sm" t-if="o.withholding_by_group">
+    <template id="report_invoice_document_final_fix_total" inherit_id="account.report_invoice_document" priority="999999">
+        
+        <!-- 1. Quadro de resumo de retenções (Estilo idêntico ao Quadro de Imposto) -->
+        <xpath expr="//table[@name='invoice_line_table']" position="after">
+            <div t-if="o.withholding_amount > 0" class="row mt-3" style="page-break-inside: avoid;">
+                <div class="col-8">
+                    <table class="table table-sm table-bordered" style="border: 1px solid #ddd;">
                         <thead>
                             <tr>
-                                <th>
-                                    <strong>Quadro de Retenções</strong>
-                                </th>
-                                <th class="text-right">Valor Base</th>
-                                <th class="text-right">Valor a Reter</th>
+                                <th colspan="3" class="text-center" style="background-color: #f2f2f2; border: 1px solid #ddd;"><strong>QUADRO DAS RETENÇÕES</strong></th>
+                            </tr>
+                            <tr style="background-color: #f8f9fa;">
+                                <th class="text-left" style="border: 1px solid #ddd;">TIPO DE RETENÇÃO</th>
+                                <th class="text-center" style="border: 1px solid #ddd;">VALOR BASE</th>
+                                <th class="text-center" style="border: 1px solid #ddd;">VALOR A RETER</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr t-foreach="o.withholding_by_group" t-as="wht_group">
-                                <td>
-                                    <span t-esc="wht_group[0]"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="wht_group[1]" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="wht_group[2]" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-                                </td>
+                            <tr t-foreach="o.get_wht_groups_for_report()" t-as="wht_group">
+                                <td class="text-left" style="border: 1px solid #ddd;"><span t-esc="wht_group[0]"/></td>
+                                <td class="text-center" style="border: 1px solid #ddd;"><span t-esc="wht_group[1]" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                <td class="text-center" style="border: 1px solid #ddd;"><span t-esc="wht_group[2]" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-
-                <!-- Coluna da Direita: Totais Principais (com estrutura original Odoo) -->
-                <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
-                    <table class="table table-sm">
-                        <!-- Totais de Impostos e Total Geral (standard Odoo) -->
-                        <t t-set="tax_totals" t-value="json.loads(o.tax_totals_json)"/>
-                        <t t-call="account.document_tax_totals"/>
-
-                        <!-- Linhas de Retenção e Líquido a Pagar -->
-                        <t t-if="o.withholding_amount > 0">
-                            <tr class="border-black o_total">
-                                <td><strong>Retenção na Fonte</strong></td>
-                                <td class="text-right">
-                                    <span t-field="o.withholding_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-                                </td>
-                            </tr>
-                            <tr class="border-black o_total">
-                                <td><strong>Líquido a Pagar</strong></td>
-                                <td class="text-right">
-                                    <span t-field="o.net_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-                                </td>
-                            </tr>
-                        </t>
-                    </table>
+                    
+                    <!-- Aviso Legal obrigatório do IVA Cativo ao abrigo do Artº 21 do CIVA -->
+                    <t t-set="has_iva_cativo" t-value="o.withholding_by_group and 'IVA Cativo' in o.withholding_by_group"/>
+                    <p t-if="has_iva_cativo" style="font-weight:bold; color:#000000; font-size: 13px; margin-top: 8px; text-transform: uppercase;">
+                        IVA CATIVADO NOS TERMOS DO ARTIGO 21º DO CIVA
+                    </p>
                 </div>
             </div>
+        </xpath>
+
+        <!-- 2. Cabeçalho da Tabela Principal -->
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr" position="replace">
+            <tr style="font-family: Arial, Helvetica, sans-serif; font-size:9pt; color:#000000; background-color: #f2f2f2;">
+                <th name="th_description" class="text-start" style="border: 1px solid #ddd;">DESCRIÇÃO</th>
+                <th name="th_quantity" class="text-end" style="border: 1px solid #ddd;">QTD</th>
+                <th name="th_uom" class="text-end" style="border: 1px solid #ddd;">UN.</th>
+                <th name="th_priceunit" class="text-end" style="border: 1px solid #ddd;">P.UNITÁRIO</th>
+                <th t-if="display_discount" name="th_discount" class="text-end" style="border: 1px solid #ddd;">DESC.%</th>
+                <th name="th_taxes" class="text-end" style="border: 1px solid #ddd;">IMPOSTOS</th>
+                <th t-if="o.withholding_amount > 0" class="text-end" style="border: 1px solid #ddd;">RETENÇÃO</th>
+                <th name="th_subtotal" class="text-end" style="border: 1px solid #ddd;">TOTAL</th>
+            </tr>
+        </xpath>
+
+        <xpath expr="//table[@name='invoice_line_table']/tbody" position="replace">
+            <tbody class="invoice_tbody" style="font-family: Arial, Helvetica, sans-serif; font-size:9pt;">
+                <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
+                <t t-foreach="lines" t-as="line">
+                    <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                        <t t-if="line.display_type == 'product'">
+                            <td name="account_invoice_line_name" style="border: 1px solid #ddd; padding: 4px;">
+                                <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                            </td>
+                            <td class="text-end" style="border: 1px solid #ddd; padding: 4px;"><span t-field="line.quantity"/></td>
+                            <td class="text-end" style="border: 1px solid #ddd; padding: 4px;"><span t-field="line.product_uom_id.name"/></td>
+                            <td class="text-end" style="border: 1px solid #ddd; padding: 4px;"><span t-field="line.price_unit"/></td>
+                            <td t-if="display_discount" class="text-end" style="border: 1px solid #ddd; padding: 4px;"><span t-field="line.discount"/></td>
+                            <td class="text-end" style="border: 1px solid #ddd; padding: 4px;">
+                                <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"/>
+                            </td>
+                            <td t-if="o.withholding_amount > 0" class="text-end" style="border: 1px solid #ddd; padding: 4px;">
+                                <t t-if="line.withholding_tax_id">
+                                    <span t-esc="line.wht_valor_exato_fix" 
+                                          t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </t>
+                                <t t-else="">
+                                    <span>0,00 Kz</span>
+                                </t>
+                            </td>
+                            <td class="text-end" style="border: 1px solid #ddd; padding: 4px;"><span t-field="line.price_subtotal"/></td>
+                        </t>
+                        <t t-else="">
+                            <td colspan="99" style="border: 1px solid #ddd; padding: 4px;"><span t-field="line.name"/></td>
+                        </t>
+                    </tr>
+                </t>
+            </tbody>
         </xpath>
     </template>
 </odoo>

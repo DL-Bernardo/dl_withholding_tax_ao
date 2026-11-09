@@ -68,7 +68,7 @@
     <template id="report_withholding">
         <t t-call="odoo.report_xml_helpers">
             <t t-foreach="docs" t-as="o">
-                <t t-call="ao_withholding.report_withholding_document" t-lang="o.partner_id.lang"/>
+                <t t-call="dl_withholding_tax_ao.report_withholding_document" t-lang="o.partner_id.lang"/>
             </t>
         </t>
     </template>
